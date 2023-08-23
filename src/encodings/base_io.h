@@ -8,7 +8,7 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
-#include "utils.h"
+#include "../utils.h"
 
 class Reader {
     std::filesystem::path filepath;
@@ -17,8 +17,9 @@ public:
 
     Reader() = default;
     Reader(std::string filepath);
-    std::string read();
-    virtual std::string decode(std::string raw) = 0;
+    virtual ~Reader() = default;
+    std::string read(const std::string& key = "");
+    virtual std::string decode(std::string encoded, const std::string& key) = 0;
 };
 
 class Writer {
@@ -27,8 +28,9 @@ class Writer {
 public:
     Writer() = default;
     Writer(std::string filepath);
-    void write(const std::string& content);
-    virtual std::string encode(std::string raw) = 0;
+    virtual ~Writer() = default;
+    void write(const std::string& content, const std::string& key = "");
+    virtual std::string encode(std::string raw, const std::string& key) = 0;
 };
 
 #endif //MATHESISDOC_BASE_IO_H

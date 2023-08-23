@@ -1,8 +1,8 @@
 #include <iostream>
-#include "src/plain_io.h"
-#include "src/encodings.h"
+#include "src/encodings/encoded_io.h"
+#include "src/encodings/encodings.h"
 #include "lib/CLI11/CLI11.hpp"
-#include "src/io_factory.h"
+#include "src/encodings/io_factory.h"
 
 void testReadWrite() {
     PlainReader reader("../data/doc.txt");
@@ -16,7 +16,7 @@ void testReadWrite() {
     std::cout << content << std::endl;
 }
 
-int encodeCommand(const std::string& inFile, std::string outFile, const std::string& encoding) {
+int encodeCommand(const std::string& inFile, std::string outFile, const std::string& encoding, const std::string& key = "") {
     IOFactory factory = IOFactory();
 
     if(outFile.empty())
@@ -25,12 +25,15 @@ int encodeCommand(const std::string& inFile, std::string outFile, const std::str
     Reader* reader = factory.reader(PlainEncoding().name(), inFile);
     Writer* writer = factory.writer(encoding, outFile);
 
-    writer->write(reader->read());
+    writer->write(reader->read(), key);
+
+    delete reader;
+    delete writer;
 
     return 0;
 }
 
-int decodeCommand(const std::string& inFile, std::string outFile, const std::string& encoding) {
+int decodeCommand(const std::string& inFile, std::string outFile, const std::string& encoding, const std::string& key = "") {
     IOFactory factory = IOFactory();
 
     if(outFile.empty())
@@ -39,7 +42,10 @@ int decodeCommand(const std::string& inFile, std::string outFile, const std::str
     Reader* reader = factory.reader(encoding, inFile);
     Writer* writer = factory.writer(PlainEncoding().name(), outFile);
 
-    writer->write(reader->read());
+    writer->write(reader->read(key));
+
+    delete reader;
+    delete writer;
 
     return 0;
 }
@@ -50,23 +56,26 @@ int main(int argc, char** argv) {
 
     std::string inFile;
     std::string outFile;
-    std::string encoding;
+    std::string encoding = "key";
+    std::string key;
 
     CLI::App* encode = app.add_subcommand("encode", "Encodes a file");
     encode->add_option("-f,--file,file", inFile, "The file to encode")->required();
     encode->add_option("-o,--out-file", outFile, "The file to output the encoding to");
-    encode->add_option("-e,--encoding", encoding, "The encoding to use during execution")->required();
+    encode->add_option("-e,--encoding", encoding, "The encoding to use during execution");
+    encode->add_option("-k,--key", key, "The key for the encoding, if applicable");
 
     CLI::App* decode = app.add_subcommand("decode", "Decodes a file");
     decode->add_option("-f,--file,file", inFile, "The file to decode")->required();
     decode->add_option("-o,--out-file", outFile, "The file to output the decoding to");
     decode->add_option("-e,--encoding", encoding, "The encoding to use during execution");
+    decode->add_option("-k,--key", key, "The key for the decoding, if applicable");
 
     try {
         app.parse(argc, argv);
 
-        if(encode->parsed()) return encodeCommand(inFile, outFile, encoding);
-        else if(decode->parsed()) return decodeCommand(inFile, outFile, encoding);
+        if(encode->parsed()) return encodeCommand(inFile, outFile, encoding, key);
+        else if(decode->parsed()) return decodeCommand(inFile, outFile, encoding, key);
 
         std::cout << app.help() << std::endl;
     } catch (const CLI::ParseError &e) { return app.exit(e); }

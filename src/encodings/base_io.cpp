@@ -14,7 +14,7 @@ Reader::Reader(std::string filepath) {
     if(!f.good()) throw std::runtime_error("File at "+this->filepath.string()+" not found");
 }
 
-std::string Reader::read() {
+std::string Reader::read(const std::string& key) {
     std::string contents;
     std::ifstream file(filepath.string());
 
@@ -24,7 +24,7 @@ std::string Reader::read() {
         curr = file.get();
     }
     file.close();
-    return decode(contents);
+    return decode(contents, key);
 }
 
 Writer::Writer(std::string filepath) {
@@ -34,8 +34,8 @@ Writer::Writer(std::string filepath) {
         this->filepath = std::filesystem::current_path() / std::filesystem::path(normalizePath(filepath));
 }
 
-void Writer::write(const std::string& content) {
+void Writer::write(const std::string& content, const std::string& key) {
     std::ofstream file(filepath.string());
-    file << encode(content);
+    file << encode(content, key);
     file.close();
 }

@@ -15,8 +15,8 @@ public:
     Reader* reader(std::string encodingName, std::string filename = "");
     Writer* writer(std::string encodingName, std::string filename = "");
 
-    std::string encode(std::string encodingName, std::string raw);
-    std::string decode(std::string encodingName, std::string encoded);
+    std::string encode(std::string encodingName, const std::string& raw, const std::string& key = "");
+    std::string decode(std::string encodingName, const std::string& encoded, const std::string& key = "");
 };
 
 #endif //MATHESISDOC_IO_FACTORY_H
