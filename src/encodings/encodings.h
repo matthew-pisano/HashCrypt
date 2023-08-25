@@ -24,7 +24,7 @@ struct PlainEncoding : public Encoding{
     std::string encode(std::string raw, const std::string& key) override;
 };
 
-struct KeyEncoding : public Encoding{
+struct ShiftAllEncoding : public Encoding{
 
     std::string name() override;
     std::string ext() override;
@@ -33,6 +33,15 @@ struct KeyEncoding : public Encoding{
     std::string encode(std::string raw, const std::string& key) override;
 };
 
-Encoding* encodingFromName(std::string name);
+struct ShiftCharEncoding : public Encoding{
+
+    std::string name() override;
+    std::string ext() override;
+
+    std::string decode(std::string encoded, const std::string& key) override;
+    std::string encode(std::string raw, const std::string& key) override;
+};
+
+Encoding* encodingFromName(const std::string& name);
 
 #endif //MATHESISDOC_ENCODINGS_H

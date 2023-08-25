@@ -19,8 +19,11 @@ void testReadWrite() {
 int encodeCommand(const std::string& inFile, std::string outFile, const std::string& encoding, const std::string& key = "") {
     IOFactory factory = IOFactory();
 
-    if(outFile.empty())
-        outFile = std::filesystem::path(inFile).replace_extension(encodingFromName(encoding)->ext()).string();
+    if(outFile.empty()) {
+        outFile = std::filesystem::path(inFile).string();
+        std::string encExtension = encodingFromName(encoding)->ext();
+        if(encExtension.length() > 0) outFile += "." + encodingFromName(encoding)->ext();
+    }
 
     Reader* reader = factory.reader(PlainEncoding().name(), inFile);
     Writer* writer = factory.writer(encoding, outFile);
@@ -36,8 +39,13 @@ int encodeCommand(const std::string& inFile, std::string outFile, const std::str
 int decodeCommand(const std::string& inFile, std::string outFile, const std::string& encoding, const std::string& key = "") {
     IOFactory factory = IOFactory();
 
-    if(outFile.empty())
-        outFile = std::filesystem::path(inFile).replace_extension(PlainEncoding().ext()).string();
+    if(outFile.empty()) {
+        outFile = std::filesystem::path(inFile).string();
+
+        std::string encExtension = encodingFromName(encoding)->ext();
+        if(encExtension.length() > 0 && outFile.ends_with(encExtension))
+            outFile.substr(0, outFile.length()-encExtension.length()-1);
+    }
 
     Reader* reader = factory.reader(encoding, inFile);
     Writer* writer = factory.writer(PlainEncoding().name(), outFile);
@@ -56,7 +64,7 @@ int main(int argc, char** argv) {
 
     std::string inFile;
     std::string outFile;
-    std::string encoding = "key";
+    std::string encoding = "shiftchar";
     std::string key;
 
     CLI::App* encode = app.add_subcommand("encode", "Encodes a file");

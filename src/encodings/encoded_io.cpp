@@ -12,8 +12,14 @@ std::string PlainReader::decode(std::string encoded, const std::string& key) { r
 PlainWriter::PlainWriter(std::string filepath) : Writer(filepath) {}
 std::string PlainWriter::encode(std::string raw, const std::string& key) { return PlainEncoding().encode(raw, key); }
 
-KeyReader::KeyReader(std::string filepath) : Reader(filepath) {}
-std::string KeyReader::decode(std::string encoded, const std::string& key) { return KeyEncoding().decode(encoded, key); }
+ShiftAllReader::ShiftAllReader(std::string filepath) : Reader(filepath) {}
+std::string ShiftAllReader::decode(std::string encoded, const std::string& key) { return ShiftAllEncoding().decode(encoded, key); }
 
-KeyWriter::KeyWriter(std::string filepath) : Writer(filepath) {}
-std::string KeyWriter::encode(std::string raw, const std::string& key) { return KeyEncoding().encode(raw, key); }
+ShiftAllWriter::ShiftAllWriter(std::string filepath) : Writer(filepath) {}
+std::string ShiftAllWriter::encode(std::string raw, const std::string& key) { return ShiftAllEncoding().encode(raw, key); }
+
+ShiftCharReader::ShiftCharReader(std::string filepath) : Reader(filepath) {}
+std::string ShiftCharReader::decode(std::string encoded, const std::string &key) { return ShiftCharEncoding().decode(encoded, key); }
+
+ShiftCharWriter::ShiftCharWriter(std::string filepath) : Writer(filepath) {}
+std::string ShiftCharWriter::encode(std::string raw, const std::string &key) { return ShiftCharEncoding().encode(raw, key); }

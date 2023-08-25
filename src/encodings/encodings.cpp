@@ -9,20 +9,36 @@
 #include <unordered_map>
 #include <climits>
 
-// TODO: add file header for encoding instead of file extension
+
 std::map<std::string, std::string> encodingMap = {
-    { "plain", "txt" },
-    { "key", "matkey" },
+    { "plain", "" },
+    { "shiftall", "akey" },
+    { "shiftchar", "ckey" },
 };
+
+
+Encoding* encodingFromName(const std::string& name) {
+    Encoding* encodings[] = {new PlainEncoding(), new ShiftAllEncoding(), new ShiftCharEncoding()};
+    std::string availEncodings;
+
+    for(Encoding* enc : encodings) {
+        if (name == enc->name())
+            return enc;
+        availEncodings += enc->name()+", ";
+    }
+
+    throw std::runtime_error("Encoding '"+name+"' not found!  Available encodings are: "+availEncodings);
+}
+
 
 std::string PlainEncoding::name() { return "plain"; }
 std::string PlainEncoding::ext() { return encodingMap.at("plain"); }
 std::string PlainEncoding::decode(std::string encoded, const std::string& key) { return encoded; }
 std::string PlainEncoding::encode(std::string raw, const std::string& key) { return raw; }
 
-std::string KeyEncoding::name() { return "key"; }
-std::string KeyEncoding::ext() { return encodingMap.at("key"); }
-std::string KeyEncoding::decode(std::string encoded, const std::string& key) {
+std::string ShiftAllEncoding::name() { return "shiftall"; }
+std::string ShiftAllEncoding::ext() { return encodingMap.at("shiftall"); }
+std::string ShiftAllEncoding::decode(std::string encoded, const std::string& key) {
     std::string decoded;
     int keyHash = abs(static_cast<int>(std::hash<std::string>{}(key)) % WCHAR_MAX);
 
@@ -30,7 +46,7 @@ std::string KeyEncoding::decode(std::string encoded, const std::string& key) {
         decoded += wchar_t(i-keyHash > 0 ? i-keyHash : i-keyHash+WCHAR_MAX);
     return decoded;
 }
-std::string KeyEncoding::encode(std::string raw, const std::string& key) {
+std::string ShiftAllEncoding::encode(std::string raw, const std::string& key) {
     std::string encoded;
     int keyHash = abs(static_cast<int>(std::hash<std::string>{}(key)) % WCHAR_MAX);
 
@@ -39,16 +55,24 @@ std::string KeyEncoding::encode(std::string raw, const std::string& key) {
     return encoded;
 }
 
+std::string ShiftCharEncoding::name() { return "shiftchar"; }
+std::string ShiftCharEncoding::ext() { return encodingMap.at("shiftchar"); }
+std::string ShiftCharEncoding::decode(std::string encoded, const std::string &key) {
+    std::string decoded;
+    ShiftAllEncoding subEncoder = ShiftAllEncoding();
 
-Encoding* encodingFromName(std::string name) {
-    if(name == PlainEncoding().name())
-        return new PlainEncoding();
-    else if(name == KeyEncoding().name())
-        return new KeyEncoding();
+    for(int i=0; i<encoded.length(); i++)
+        decoded += subEncoder.decode(encoded.substr(i, 1), key+std::to_string(i));
 
-    std::string availEncodings;
-    for ( const auto &myPair : encodingMap ) {
-        availEncodings += myPair.first+", ";
-    }
-    throw std::runtime_error("Encoding '"+name+"' not found!  Available encodings are: "+availEncodings);
+    return decoded;
+}
+std::string ShiftCharEncoding::encode(std::string raw, const std::string &key) {
+    std::string encoded;
+    ShiftAllEncoding subEncoder = ShiftAllEncoding();
+
+    for(int i=0; i<raw.length(); i++)
+        encoded += subEncoder.encode(raw.substr(i, 1), key+std::to_string(i));
+
+
+    return encoded;
 }

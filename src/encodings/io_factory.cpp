@@ -9,16 +9,20 @@
 Reader* IOFactory::reader(std::string encodingName, std::string filename) {
     if(encodingName == PlainEncoding().name())
         return new PlainReader(filename);
-    else if(encodingName == KeyEncoding().name())
-        return new KeyReader(filename);
+    else if(encodingName == ShiftAllEncoding().name())
+        return new ShiftAllReader(filename);
+    else if(encodingName == ShiftCharEncoding().name())
+        return new ShiftCharReader(filename);
     throw std::runtime_error("Encoding "+encodingName+" not found!");
 }
 
 Writer* IOFactory::writer(std::string encodingName, std::string filename) {
     if(encodingName == PlainEncoding().name())
         return new PlainWriter(filename);
-    else if(encodingName == KeyEncoding().name())
-        return new KeyWriter(filename);
+    else if(encodingName == ShiftAllEncoding().name())
+        return new ShiftAllWriter(filename);
+    else if(encodingName == ShiftCharEncoding().name())
+        return new ShiftCharWriter(filename);
     throw std::runtime_error("Encoding "+encodingName+" not found!");
 }
 

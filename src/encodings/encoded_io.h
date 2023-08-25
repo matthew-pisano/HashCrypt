@@ -20,15 +20,27 @@ public:
     std::string encode(std::string raw, const std::string& key) override;
 };
 
-class KeyReader : public Reader{
+class ShiftAllReader : public Reader{
 public:
-    KeyReader(std::string filepath);
+    ShiftAllReader(std::string filepath);
     std::string decode(std::string encoded, const std::string& key) override;
 };
 
-class KeyWriter : public Writer{
+class ShiftAllWriter : public Writer{
 public:
-    KeyWriter(std::string filepath);
+    ShiftAllWriter(std::string filepath);
+    std::string encode(std::string raw, const std::string& key) override;
+};
+
+class ShiftCharReader : public Reader{
+public:
+    ShiftCharReader(std::string filepath);
+    std::string decode(std::string encoded, const std::string& key) override;
+};
+
+class ShiftCharWriter : public Writer{
+public:
+    ShiftCharWriter(std::string filepath);
     std::string encode(std::string raw, const std::string& key) override;
 };
 
