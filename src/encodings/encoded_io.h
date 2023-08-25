@@ -8,42 +8,74 @@
 #include <filesystem>
 #include "base_io.h"
 
+
 using namespace utils;
 
-class PlainReader : public Reader{
+
+/**
+ * A reader for plaintext
+ */
+class PlainReader : public Reader {
 public:
     PlainReader(string filepath);
-    string decode(string encoded, const string& key) override;
+
+    string decode(string encoded, const string &key) override;
 };
 
-class PlainWriter : public Writer{
+
+/**
+ * A writer for plaintext
+ */
+class PlainWriter : public Writer {
 public:
     PlainWriter(string filepath);
-    string encode(string raw, const string& key) override;
+
+    string encode(string raw, const string &key) override;
 };
 
-class ShiftAllReader : public Reader{
+
+/**
+ * A reader for shiftall encoded files
+ */
+class ShiftAllReader : public Reader {
 public:
     ShiftAllReader(string filepath);
-    string decode(string encoded, const string& key) override;
+
+    string decode(string encoded, const string &key) override;
 };
 
-class ShiftAllWriter : public Writer{
+
+/**
+ * A writer for shiftall encoded files
+ */
+class ShiftAllWriter : public Writer {
 public:
     ShiftAllWriter(string filepath);
-    string encode(string raw, const string& key) override;
+
+    string encode(string raw, const string &key) override;
 };
 
-class ShiftCharReader : public Reader{
+
+/**
+ * A reader for shiftchar encoded files
+ */
+class ShiftCharReader : public Reader {
 public:
     ShiftCharReader(string filepath);
-    string decode(string encoded, const string& key) override;
+
+    string decode(string encoded, const string &key) override;
 };
 
-class ShiftCharWriter : public Writer{
+
+/**
+ * A writer for shiftchar encoded files
+ */
+class ShiftCharWriter : public Writer {
 public:
     ShiftCharWriter(string filepath);
-    string encode(string raw, const string& key) override;
+
+    string encode(string raw, const string &key) override;
 };
+
 
 #endif //MATHESISDOC_ENCODED_IO_H
