@@ -8,40 +8,42 @@
 #include <filesystem>
 #include "base_io.h"
 
+using namespace utils;
+
 class PlainReader : public Reader{
 public:
-    PlainReader(std::string filepath);
-    std::string decode(std::string encoded, const std::string& key) override;
+    PlainReader(string filepath);
+    string decode(string encoded, const string& key) override;
 };
 
 class PlainWriter : public Writer{
 public:
-    PlainWriter(std::string filepath);
-    std::string encode(std::string raw, const std::string& key) override;
+    PlainWriter(string filepath);
+    string encode(string raw, const string& key) override;
 };
 
 class ShiftAllReader : public Reader{
 public:
-    ShiftAllReader(std::string filepath);
-    std::string decode(std::string encoded, const std::string& key) override;
+    ShiftAllReader(string filepath);
+    string decode(string encoded, const string& key) override;
 };
 
 class ShiftAllWriter : public Writer{
 public:
-    ShiftAllWriter(std::string filepath);
-    std::string encode(std::string raw, const std::string& key) override;
+    ShiftAllWriter(string filepath);
+    string encode(string raw, const string& key) override;
 };
 
 class ShiftCharReader : public Reader{
 public:
-    ShiftCharReader(std::string filepath);
-    std::string decode(std::string encoded, const std::string& key) override;
+    ShiftCharReader(string filepath);
+    string decode(string encoded, const string& key) override;
 };
 
 class ShiftCharWriter : public Writer{
 public:
-    ShiftCharWriter(std::string filepath);
-    std::string encode(std::string raw, const std::string& key) override;
+    ShiftCharWriter(string filepath);
+    string encode(string raw, const string& key) override;
 };
 
 #endif //MATHESISDOC_ENCODED_IO_H

@@ -10,16 +10,18 @@
 #include <string>
 #include "../utils.h"
 
+using namespace utils;
+
 class Reader {
     std::filesystem::path filepath;
 
 public:
 
     Reader() = default;
-    Reader(std::string filepath);
+    Reader(string filepath);
     virtual ~Reader() = default;
-    std::string read(const std::string& key = "");
-    virtual std::string decode(std::string encoded, const std::string& key) = 0;
+    string read(const string& key = "");
+    virtual string decode(string encoded, const string& key) = 0;
 };
 
 class Writer {
@@ -27,10 +29,10 @@ class Writer {
 
 public:
     Writer() = default;
-    Writer(std::string filepath);
+    Writer(string filepath);
     virtual ~Writer() = default;
-    void write(const std::string& content, const std::string& key = "");
-    virtual std::string encode(std::string raw, const std::string& key) = 0;
+    void write(const string& content, const string& key = "");
+    virtual string encode(string raw, const string& key) = 0;
 };
 
 #endif //MATHESISDOC_BASE_IO_H

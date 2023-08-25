@@ -4,22 +4,21 @@
 
 
 #include <stdexcept>
-#include <map>
 #include "encodings.h"
 #include <unordered_map>
-#include <climits>
 
+using namespace utils;
 
-std::map<std::string, std::string> encodingMap = {
+map<string, string> encodingMap = {
     { "plain", "" },
     { "shiftall", "akey" },
     { "shiftchar", "ckey" },
 };
 
 
-Encoding* encodingFromName(const std::string& name) {
+Encoding* encodingFromName(const string& name) {
     Encoding* encodings[] = {new PlainEncoding(), new ShiftAllEncoding(), new ShiftCharEncoding()};
-    std::string availEncodings;
+    string availEncodings;
 
     for(Encoding* enc : encodings) {
         if (name == enc->name())
@@ -27,51 +26,51 @@ Encoding* encodingFromName(const std::string& name) {
         availEncodings += enc->name()+", ";
     }
 
-    throw std::runtime_error("Encoding '"+name+"' not found!  Available encodings are: "+availEncodings);
+    throw runtime_error("Encoding '"+name+"' not found!  Available encodings are: "+availEncodings);
 }
 
 
-std::string PlainEncoding::name() { return "plain"; }
-std::string PlainEncoding::ext() { return encodingMap.at("plain"); }
-std::string PlainEncoding::decode(std::string encoded, const std::string& key) { return encoded; }
-std::string PlainEncoding::encode(std::string raw, const std::string& key) { return raw; }
+string PlainEncoding::name() { return "plain"; }
+string PlainEncoding::ext() { return encodingMap.at("plain"); }
+string PlainEncoding::decode(string encoded, const string& key) { return encoded; }
+string PlainEncoding::encode(string raw, const string& key) { return raw; }
 
-std::string ShiftAllEncoding::name() { return "shiftall"; }
-std::string ShiftAllEncoding::ext() { return encodingMap.at("shiftall"); }
-std::string ShiftAllEncoding::decode(std::string encoded, const std::string& key) {
-    std::string decoded;
-    int keyHash = abs(static_cast<int>(std::hash<std::string>{}(key)) % WCHAR_MAX);
+string ShiftAllEncoding::name() { return "shiftall"; }
+string ShiftAllEncoding::ext() { return encodingMap.at("shiftall"); }
+string ShiftAllEncoding::decode(string encoded, const string& key) {
+    string decoded;
+    int keyHash = abs(static_cast<int>(hash<string>{}(key)) % WCHAR_MAX);
 
     for (char i : encoded)
         decoded += wchar_t(i-keyHash > 0 ? i-keyHash : i-keyHash+WCHAR_MAX);
     return decoded;
 }
-std::string ShiftAllEncoding::encode(std::string raw, const std::string& key) {
-    std::string encoded;
-    int keyHash = abs(static_cast<int>(std::hash<std::string>{}(key)) % WCHAR_MAX);
+string ShiftAllEncoding::encode(string raw, const string& key) {
+    string encoded;
+    int keyHash = abs(static_cast<int>(hash<string>{}(key)) % WCHAR_MAX);
 
     for (char i : raw)
         encoded += wchar_t(i+keyHash >= WCHAR_MAX ? i+keyHash : i+keyHash-WCHAR_MAX);
     return encoded;
 }
 
-std::string ShiftCharEncoding::name() { return "shiftchar"; }
-std::string ShiftCharEncoding::ext() { return encodingMap.at("shiftchar"); }
-std::string ShiftCharEncoding::decode(std::string encoded, const std::string &key) {
-    std::string decoded;
+string ShiftCharEncoding::name() { return "shiftchar"; }
+string ShiftCharEncoding::ext() { return encodingMap.at("shiftchar"); }
+string ShiftCharEncoding::decode(string encoded, const string &key) {
+    string decoded;
     ShiftAllEncoding subEncoder = ShiftAllEncoding();
 
     for(int i=0; i<encoded.length(); i++)
-        decoded += subEncoder.decode(encoded.substr(i, 1), key+std::to_string(i));
+        decoded += subEncoder.decode(encoded.substr(i, 1), key+to_string(i));
 
     return decoded;
 }
-std::string ShiftCharEncoding::encode(std::string raw, const std::string &key) {
-    std::string encoded;
+string ShiftCharEncoding::encode(string raw, const string &key) {
+    string encoded;
     ShiftAllEncoding subEncoder = ShiftAllEncoding();
 
     for(int i=0; i<raw.length(); i++)
-        encoded += subEncoder.encode(raw.substr(i, 1), key+std::to_string(i));
+        encoded += subEncoder.encode(raw.substr(i, 1), key+to_string(i));
 
 
     return encoded;

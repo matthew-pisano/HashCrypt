@@ -6,20 +6,22 @@
 #include "encoded_io.h"
 #include "encodings.h"
 
-PlainReader::PlainReader(std::string filepath) : Reader(filepath) {}
-std::string PlainReader::decode(std::string encoded, const std::string& key) { return PlainEncoding().decode(encoded, key); }
+using namespace utils;
 
-PlainWriter::PlainWriter(std::string filepath) : Writer(filepath) {}
-std::string PlainWriter::encode(std::string raw, const std::string& key) { return PlainEncoding().encode(raw, key); }
+PlainReader::PlainReader(string filepath) : Reader(filepath) {}
+string PlainReader::decode(string encoded, const string& key) { return PlainEncoding().decode(encoded, key); }
 
-ShiftAllReader::ShiftAllReader(std::string filepath) : Reader(filepath) {}
-std::string ShiftAllReader::decode(std::string encoded, const std::string& key) { return ShiftAllEncoding().decode(encoded, key); }
+PlainWriter::PlainWriter(string filepath) : Writer(filepath) {}
+string PlainWriter::encode(string raw, const string& key) { return PlainEncoding().encode(raw, key); }
 
-ShiftAllWriter::ShiftAllWriter(std::string filepath) : Writer(filepath) {}
-std::string ShiftAllWriter::encode(std::string raw, const std::string& key) { return ShiftAllEncoding().encode(raw, key); }
+ShiftAllReader::ShiftAllReader(string filepath) : Reader(filepath) {}
+string ShiftAllReader::decode(string encoded, const string& key) { return ShiftAllEncoding().decode(encoded, key); }
 
-ShiftCharReader::ShiftCharReader(std::string filepath) : Reader(filepath) {}
-std::string ShiftCharReader::decode(std::string encoded, const std::string &key) { return ShiftCharEncoding().decode(encoded, key); }
+ShiftAllWriter::ShiftAllWriter(string filepath) : Writer(filepath) {}
+string ShiftAllWriter::encode(string raw, const string& key) { return ShiftAllEncoding().encode(raw, key); }
 
-ShiftCharWriter::ShiftCharWriter(std::string filepath) : Writer(filepath) {}
-std::string ShiftCharWriter::encode(std::string raw, const std::string &key) { return ShiftCharEncoding().encode(raw, key); }
+ShiftCharReader::ShiftCharReader(string filepath) : Reader(filepath) {}
+string ShiftCharReader::decode(string encoded, const string &key) { return ShiftCharEncoding().decode(encoded, key); }
+
+ShiftCharWriter::ShiftCharWriter(string filepath) : Writer(filepath) {}
+string ShiftCharWriter::encode(string raw, const string &key) { return ShiftCharEncoding().encode(raw, key); }

@@ -9,14 +9,16 @@
 #include "base_io.h"
 #include "encodings.h"
 
+using namespace utils;
+
 class IOFactory {
 
 public:
-    Reader* reader(std::string encodingName, std::string filename = "");
-    Writer* writer(std::string encodingName, std::string filename = "");
+    Reader* reader(string encodingName, string filename = "");
+    Writer* writer(string encodingName, string filename = "");
 
-    std::string encode(std::string encodingName, const std::string& raw, const std::string& key = "");
-    std::string decode(std::string encodingName, const std::string& encoded, const std::string& key = "");
+    string encode(string encodingName, const string& raw, const string& key = "");
+    string decode(string encodingName, const string& encoded, const string& key = "");
 };
 
 #endif //MATHESISDOC_IO_FACTORY_H

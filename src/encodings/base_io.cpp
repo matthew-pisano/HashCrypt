@@ -4,18 +4,20 @@
 
 #include "base_io.h"
 
-Reader::Reader(std::string filepath) {
+using namespace utils;
+
+Reader::Reader(string filepath) {
     if(filepath.length() > 0 && filepath.at(0) == '/')
         this->filepath = std::filesystem::path(normalizePath(filepath));
     else
         this->filepath = std::filesystem::current_path() / std::filesystem::path(normalizePath(filepath));
 
     std::ifstream f(this->filepath.string().c_str());
-    if(!f.good()) throw std::runtime_error("File at "+this->filepath.string()+" not found");
+    if(!f.good()) throw runtime_error("File at "+this->filepath.string()+" not found");
 }
 
-std::string Reader::read(const std::string& key) {
-    std::string contents;
+string Reader::read(const string& key) {
+    string contents;
     std::ifstream file(filepath.string());
 
     char curr = file.get();
@@ -27,14 +29,14 @@ std::string Reader::read(const std::string& key) {
     return decode(contents, key);
 }
 
-Writer::Writer(std::string filepath) {
+Writer::Writer(string filepath) {
     if(filepath.length() > 0 && filepath.at(0) == '/')
         this->filepath = std::filesystem::path(normalizePath(filepath));
     else
         this->filepath = std::filesystem::current_path() / std::filesystem::path(normalizePath(filepath));
 }
 
-void Writer::write(const std::string& content, const std::string& key) {
+void Writer::write(const string& content, const string& key) {
     std::ofstream file(filepath.string());
     file << encode(content, key);
     file.close();

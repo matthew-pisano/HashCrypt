@@ -6,42 +6,45 @@
 #define MATHESISDOC_ENCODINGS_H
 
 #include <string>
+#include "../utils.h"
+
+using namespace utils;
 
 struct Encoding {
-    virtual std::string name() = 0;
-    virtual std::string ext() = 0;
+    virtual string name() = 0;
+    virtual string ext() = 0;
 
-    virtual std::string decode(std::string encoded, const std::string& key) = 0;
-    virtual std::string encode(std::string raw, const std::string& key) = 0;
+    virtual string decode(string encoded, const string& key) = 0;
+    virtual string encode(string raw, const string& key) = 0;
 };
 
 struct PlainEncoding : public Encoding{
 
-    std::string name() override;
-    std::string ext() override;
+    string name() override;
+    string ext() override;
 
-    std::string decode(std::string encoded, const std::string& key) override;
-    std::string encode(std::string raw, const std::string& key) override;
+    string decode(string encoded, const string& key) override;
+    string encode(string raw, const string& key) override;
 };
 
 struct ShiftAllEncoding : public Encoding{
 
-    std::string name() override;
-    std::string ext() override;
+    string name() override;
+    string ext() override;
 
-    std::string decode(std::string encoded, const std::string& key) override;
-    std::string encode(std::string raw, const std::string& key) override;
+    string decode(string encoded, const string& key) override;
+    string encode(string raw, const string& key) override;
 };
 
 struct ShiftCharEncoding : public Encoding{
 
-    std::string name() override;
-    std::string ext() override;
+    string name() override;
+    string ext() override;
 
-    std::string decode(std::string encoded, const std::string& key) override;
-    std::string encode(std::string raw, const std::string& key) override;
+    string decode(string encoded, const string& key) override;
+    string encode(string raw, const string& key) override;
 };
 
-Encoding* encodingFromName(const std::string& name);
+Encoding* encodingFromName(const string& name);
 
 #endif //MATHESISDOC_ENCODINGS_H

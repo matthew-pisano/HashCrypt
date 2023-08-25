@@ -4,24 +4,26 @@
 #include "lib/CLI11/CLI11.hpp"
 #include "src/encodings/io_factory.h"
 
+using namespace utils;
+
 void testReadWrite() {
     PlainReader reader("../data/doc.txt");
-    std::string content = reader.read();
-    std::cout << content << std::endl;
+    string content = reader.read();
+    cout << content << endl;
 
     PlainWriter writer("../data/doc.txt");
     writer.write(content+"\n\nWow!");
 
     content = reader.read();
-    std::cout << content << std::endl;
+    cout << content << endl;
 }
 
-int encodeCommand(const std::string& inFile, std::string outFile, const std::string& encoding, const std::string& key = "") {
+int encodeCommand(const string& inFile, string outFile, const string& encoding, const string& key = "") {
     IOFactory factory = IOFactory();
 
     if(outFile.empty()) {
         outFile = std::filesystem::path(inFile).string();
-        std::string encExtension = encodingFromName(encoding)->ext();
+        string encExtension = encodingFromName(encoding)->ext();
         if(encExtension.length() > 0) outFile += "." + encodingFromName(encoding)->ext();
     }
 
@@ -36,13 +38,13 @@ int encodeCommand(const std::string& inFile, std::string outFile, const std::str
     return 0;
 }
 
-int decodeCommand(const std::string& inFile, std::string outFile, const std::string& encoding, const std::string& key = "") {
+int decodeCommand(const string& inFile, string outFile, const string& encoding, const string& key = "") {
     IOFactory factory = IOFactory();
 
     if(outFile.empty()) {
         outFile = std::filesystem::path(inFile).string();
 
-        std::string encExtension = encodingFromName(encoding)->ext();
+        string encExtension = encodingFromName(encoding)->ext();
         if(encExtension.length() > 0 && outFile.ends_with(encExtension))
             outFile.substr(0, outFile.length()-encExtension.length()-1);
     }
@@ -62,10 +64,10 @@ int main(int argc, char** argv) {
 
     CLI::App app{"Mathesis document encoder-decoder", "MathesisDoc"};
 
-    std::string inFile;
-    std::string outFile;
-    std::string encoding = "shiftchar";
-    std::string key;
+    string inFile;
+    string outFile;
+    string encoding = "shiftchar";
+    string key;
 
     CLI::App* encode = app.add_subcommand("encode", "Encodes a file");
     encode->add_option("-f,--file,file", inFile, "The file to encode")->required();
@@ -85,9 +87,9 @@ int main(int argc, char** argv) {
         if(encode->parsed()) return encodeCommand(inFile, outFile, encoding, key);
         else if(decode->parsed()) return decodeCommand(inFile, outFile, encoding, key);
 
-        std::cout << app.help() << std::endl;
+        cout << app.help() << endl;
     } catch (const CLI::ParseError &e) { return app.exit(e); }
-    catch (const std::runtime_error &e) {
+    catch (const runtime_error &e) {
         const CLI::Error cli("Runtime Error", e.what());
         return app.exit(cli);
     }
