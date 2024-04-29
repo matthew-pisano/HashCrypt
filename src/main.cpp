@@ -1,25 +1,13 @@
 #include <iostream>
 
-#include "lib/CLI11/CLI11.hpp"
-#include "include/encodings/encoded_io.h"
-#include "include/encodings/encodings.h"
-#include "include/encodings/io_factory.h"
+#include "CLI11/CLI11.hpp"
+#include "encodings/encoded_io.h"
+#include "encodings/encodings.h"
+#include "encodings/io_factory.h"
 
 
 using namespace utils;
 
-
-void testReadWrite() {
-    PlainReader reader("../data/doc.txt");
-    string content = reader.read();
-    cout << content << endl;
-
-    PlainWriter writer("../data/doc.txt");
-    writer.write(content + "\n\nWow!");
-
-    content = reader.read();
-    cout << content << endl;
-}
 
 /**
  * The functionality for the encode command.  Encodes the given file with the given arguments and saves it

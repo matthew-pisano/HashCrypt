@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 23)
 
 include_directories(include lib)
 
-add_executable(hcrypt main.cpp
+add_executable(hcrypt src/main.cpp
         src/encodings/encoded_io.cpp
         include/encodings/base_io.h
         src/utils.cpp
