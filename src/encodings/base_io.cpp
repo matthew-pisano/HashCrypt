@@ -2,13 +2,13 @@
 // Created by matthew on 8/20/23.
 //
 
-#include "base_io.h"
+#include "encodings/base_io.h"
 
 
 using namespace utils;
 
 Reader::Reader(string filepath) {
-    if (filepath.length() > 0 && filepath.at(0) == '/')
+    if (!filepath.empty() && filepath.at(0) == '/')
         this->filepath = std::filesystem::path(normalizePath(filepath));
     else
         this->filepath = std::filesystem::current_path() / std::filesystem::path(normalizePath(filepath));
@@ -17,7 +17,7 @@ Reader::Reader(string filepath) {
     if (!f.good()) throw runtime_error("File at " + this->filepath.string() + " not found");
 }
 
-string Reader::read(const string &key) {
+string Reader::read(const string& key) {
     string contents;
     std::ifstream file(filepath.string());
 
@@ -31,13 +31,13 @@ string Reader::read(const string &key) {
 }
 
 Writer::Writer(string filepath) {
-    if (filepath.length() > 0 && filepath.at(0) == '/')
+    if (!filepath.empty() && filepath.at(0) == '/')
         this->filepath = std::filesystem::path(normalizePath(filepath));
     else
         this->filepath = std::filesystem::current_path() / std::filesystem::path(normalizePath(filepath));
 }
 
-void Writer::write(const string &content, const string &key) {
+void Writer::write(const string& content, const string& key) {
     std::ofstream file(filepath.string());
     file << encode(content, key);
     file.close();

@@ -2,8 +2,8 @@
 // Created by matthew on 8/20/23.
 //
 
-#ifndef MATHESISDOC_UTILS_H
-#define MATHESISDOC_UTILS_H
+#ifndef HCRYPT_UTILS_H
+#define HCRYPT_UTILS_H
 
 #include <string>
 #include <iostream>
@@ -20,6 +20,6 @@ namespace utils {
  * @param messyPath The input path
  * @return The normalized path
  */
-std::string normalizePath(const std::string &messyPath);
+std::string normalizePath(const std::string& messyPath);
 
-#endif //MATHESISDOC_UTILS_H
+#endif //HCRYPT_UTILS_H

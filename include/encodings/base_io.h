@@ -2,8 +2,8 @@
 // Created by matthew on 8/20/23.
 //
 
-#ifndef MATHESISDOC_BASE_IO_H
-#define MATHESISDOC_BASE_IO_H
+#ifndef HCRYPT_BASE_IO_H
+#define HCRYPT_BASE_IO_H
 
 #include <filesystem>
 #include <fstream>
@@ -33,7 +33,7 @@ public:
      * @param key The key to encode with
      * @return The decoded file contents
      */
-    string read(const string &key = "");
+    string read(const string& key = "");
 
     /**
      * Decodes the given string using the given key
@@ -41,7 +41,7 @@ public:
      * @param key The key to decode with
      * @return The decoded string
      */
-    virtual string decode(string encoded, const string &key) = 0;
+    virtual string decode(string encoded, const string& key) = 0;
 };
 
 
@@ -62,7 +62,7 @@ public:
      * Writes to the object's filepath while encoding with the given key
      * @param key The key to encode with
      */
-    void write(const string &content, const string &key = "");
+    void write(const string& content, const string& key = "");
 
     /**
      * Encodes the given string using the given key
@@ -70,8 +70,8 @@ public:
      * @param key The key to encode with
      * @return The encoded string
      */
-    virtual string encode(string raw, const string &key) = 0;
+    virtual string encode(string raw, const string& key) = 0;
 };
 
 
-#endif //MATHESISDOC_BASE_IO_H
+#endif //HCRYPT_BASE_IO_H

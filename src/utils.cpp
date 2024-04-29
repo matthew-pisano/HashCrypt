@@ -7,7 +7,7 @@
 
 using namespace utils;
 
-string normalizePath(const string &messyPath) {
+string normalizePath(const string& messyPath) {
     std::filesystem::path path(messyPath);
     std::filesystem::path canonicalPath = std::filesystem::weakly_canonical(path);
     string npath = canonicalPath.make_preferred().string();

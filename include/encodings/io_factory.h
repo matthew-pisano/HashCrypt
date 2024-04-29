@@ -2,8 +2,8 @@
 // Created by matthew on 8/20/23.
 //
 
-#ifndef MATHESISDOC_IO_FACTORY_H
-#define MATHESISDOC_IO_FACTORY_H
+#ifndef HCRYPT_IO_FACTORY_H
+#define HCRYPT_IO_FACTORY_H
 
 #include <string>
 #include "base_io.h"
@@ -26,7 +26,7 @@ public:
      * @param filename The file to target
      * @return A pointer to an instance of the reader
      */
-    Reader *reader(const string &encodingName, const string &filename = "");
+    Reader* reader(const string& encodingName, const string& filename = "");
 
     /**
      * Instantiates a reference to an appropriate writer object
@@ -34,7 +34,7 @@ public:
      * @param filename The file to target
      * @return A pointer to an instance of the writer
      */
-    Writer *writer(const string &encodingName, const string &filename = "");
+    Writer* writer(const string& encodingName, const string& filename = "");
 
     /**
      * Encodes a string by creating an instance of an appropriate writer and calling its encode function
@@ -43,7 +43,7 @@ public:
      * @param key The key to use while encoding
      * @return The encoded string
      */
-    string encode(const string &encodingName, const string &raw, const string &key = "");
+    string encode(const string& encodingName, const string& raw, const string& key = "");
 
     /**
      * Decodes a string by creating an instance of an appropriate reader and calling its decode function
@@ -52,8 +52,8 @@ public:
      * @param key The key to use while decoding
      * @return The decoded string
      */
-    string decode(string &encodingName, const string &encoded, const string &key = "");
+    string decode(string& encodingName, const string& encoded, const string& key = "");
 };
 
 
-#endif //MATHESISDOC_IO_FACTORY_H
+#endif //HCRYPT_IO_FACTORY_H

@@ -2,8 +2,8 @@
 // Created by matthew on 8/20/23.
 //
 
-#ifndef MATHESISDOC_ENCODINGS_H
-#define MATHESISDOC_ENCODINGS_H
+#ifndef HCRYPT_ENCODINGS_H
+#define HCRYPT_ENCODINGS_H
 
 #include <string>
 #include "../utils.h"
@@ -35,7 +35,7 @@ struct Encoding {
      * @param key The key to decode with
      * @return The decoded string
      */
-    virtual string decode(string encoded, const string &key) = 0;
+    virtual string decode(string encoded, const string& key) = 0;
 
     /**
      * Encodes a string using the given key and returns the result
@@ -43,7 +43,7 @@ struct Encoding {
      * @param key The key to encode with
      * @return The encoded string
      */
-    virtual string encode(string raw, const string &key) = 0;
+    virtual string encode(string raw, const string& key) = 0;
 };
 
 
@@ -56,9 +56,9 @@ struct PlainEncoding : public Encoding {
 
     string ext() override;
 
-    string decode(string encoded, const string &key) override;
+    string decode(string encoded, const string& key) override;
 
-    string encode(string raw, const string &key) override;
+    string encode(string raw, const string& key) override;
 };
 
 
@@ -71,9 +71,9 @@ struct ShiftAllEncoding : public Encoding {
 
     string ext() override;
 
-    string decode(string encoded, const string &key) override;
+    string decode(string encoded, const string& key) override;
 
-    string encode(string raw, const string &key) override;
+    string encode(string raw, const string& key) override;
 };
 
 
@@ -86,9 +86,9 @@ struct ShiftCharEncoding : public Encoding {
 
     string ext() override;
 
-    string decode(string encoded, const string &key) override;
+    string decode(string encoded, const string& key) override;
 
-    string encode(string raw, const string &key) override;
+    string encode(string raw, const string& key) override;
 };
 
 
@@ -97,6 +97,6 @@ struct ShiftCharEncoding : public Encoding {
  * @param name The name of the encoding to get
  * @return A pointer to an encoding instance
  */
-Encoding *encodingFromName(const string &name);
+Encoding* encodingFromName(const string& name);
 
-#endif //MATHESISDOC_ENCODINGS_H
+#endif //HCRYPT_ENCODINGS_H
